@@ -4,7 +4,7 @@ export default function PropertyHeaderImage({ image }) {
 	return (
 		<div>
 			<Image
-				src={`/images/properties/${image}`}
+				src={image}
 				alt='room'
 				width={0}
 				height={0}
