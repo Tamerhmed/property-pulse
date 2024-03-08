@@ -1,5 +1,6 @@
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
+import { getSessionUser } from '@/utils/getSessionUser';
 
 //GET /api/properties/user/:userId
 export const GET = async (request, { params }) => {
@@ -11,7 +12,7 @@ export const GET = async (request, { params }) => {
 			return new Response('User ID is required', { status: 400 });
 		}
 
-		const properties = await Property.find({owner: userId});
+		const properties = await Property.find({ owner: userId });
 
 		return new Response(JSON.stringify(properties), {
 			status: 200,
@@ -21,3 +22,5 @@ export const GET = async (request, { params }) => {
 		return new Response({ msg: 'Something went wrong' }, { status: 500 });
 	}
 };
+
+

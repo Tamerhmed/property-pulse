@@ -1,46 +1,74 @@
 'use client';
 
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import profileDefault from '@/assets/images/profile.png';
 import Spinner from '@/components/Spinner';
+  import {  toast } from 'react-toastify';
+
 
 export default function page() {
-  const {data: session} = useSession();
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const profileImage = session?.user?.image;
-  const profileName = session?.user?.name;
-  const profileEmail = session?.user?.email;
-  
-useEffect(()=> {
-	const fetchUserProperties = async (userId)=> {
-		if(!userId){
-			return;
+	const { data: session } = useSession();
+	const [properties, setProperties] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const profileImage = session?.user?.image;
+	const profileName = session?.user?.name;
+	const profileEmail = session?.user?.email;
+
+	useEffect(() => {
+		const fetchUserProperties = async (userId) => {
+			if (!userId) {
+				return;
+			}
+
+			try {
+				const res = await fetch(`/api/properties/user/${userId}`, {
+					cache: 'no-store',
+				});
+
+				if (res.status === 200) {
+					const data = await res.json();
+					setProperties(data);
+				}
+			} catch (error) {
+				console.log(error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		if (session?.user?.id) {
+			fetchUserProperties(session.user.id);
 		}
+	}, [session]);
 
-	try {
-		const res = await fetch(`/api/properties/user/${userId}`);
-
-		if(res.status === 200){
-			const data = await res.json();
-			setProperties(data);
+	const handleDeleteProperty = async (propertyId) => {
+		try {
+			const res = await fetch(
+				`/api/properties/${propertyId}`,
+				{
+					method: 'DELETE',
+					cache: 'no-store',
+				}
+			);
+			if (res.status === 200) {
+				const updatedProperties = properties.filter(
+					(property) => property.id !== propertyId
+				);
+				setProperties(updatedProperties);
+				toast.success('Property deleted');
+			} else {
+				toast.error('Failed to delete property');
+			}
+		} catch (error) {
+			console.log(error);
+			toast.error('Failed to delete property');
 		}
-	} catch (error) {
-		console.log(error);
-	} finally {
-		setLoading(false);
-	}
-	}
+	};
 
-	if(session?.user?.id){
-		fetchUserProperties(session.user.id);
-	}
-}, [session]);
-
-  return (
+	return (
 		<section className='bg-blue-50'>
 			<div className='container m-auto py-24'>
 				<div className='bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
