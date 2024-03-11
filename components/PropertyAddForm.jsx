@@ -211,6 +211,7 @@ export default function PropertyAddForm() {
 							id='beds'
 							name='beds'
 							className='border rounded w-full py-2 px-3'
+							min='1'
 							required
 							value={fields.beds}
 							onChange={handleChange}
@@ -228,6 +229,7 @@ export default function PropertyAddForm() {
 							id='baths'
 							name='baths'
 							className='border rounded w-full py-2 px-3'
+							min='1'
 							required
 							value={fields.baths}
 							onChange={handleChange}
@@ -244,6 +246,7 @@ export default function PropertyAddForm() {
 							type='number'
 							id='square_feet'
 							name='square_feet'
+							min='200'
 							className='border rounded w-full py-2 px-3'
 							required
 							value={fields.square_feet}
@@ -459,6 +462,7 @@ export default function PropertyAddForm() {
 							<input
 								type='number'
 								id='weekly_rate'
+								min='400'
 								name='rates.weekly'
 								className='border rounded w-full py-2 px-3'
 								value={fields.rates.weekly}
@@ -474,6 +478,7 @@ export default function PropertyAddForm() {
 							</label>
 							<input
 								type='number'
+								min='400'
 								id='monthly_rate'
 								name='rates.monthly'
 								className='border rounded w-full py-2 px-3'
@@ -490,6 +495,7 @@ export default function PropertyAddForm() {
 							</label>
 							<input
 								type='number'
+								min='400'
 								id='nightly_rate'
 								name='rates.nightly'
 								className='border rounded w-full py-2 px-3'

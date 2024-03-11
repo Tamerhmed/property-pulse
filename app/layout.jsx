@@ -1,11 +1,12 @@
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
-  import { ToastContainer } from 'react-toastify';
-	import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'photoswipe/dist/photoswipe.css';
 import './globals.css';
 import Footer from '@/components/Footer';
 import AuthProvider from '@/components/AuthProvider';
-
+import { GlobalProvider } from '@/context/GlobalContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,15 +18,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<AuthProvider>
-			<html lang='en'>
-				<body className={inter.className}>
-					<Navbar />
-					<main>{children}</main>
-					<Footer />
-					<ToastContainer />
-				</body>
-			</html>
-		</AuthProvider>
+		<GlobalProvider>
+			<AuthProvider>
+				<html lang='en'>
+					<body className={inter.className}>
+						<Navbar />
+						<main>{children}</main>
+						<Footer />
+						<ToastContainer />
+					</body>
+				</html>
+			</AuthProvider>
+		</GlobalProvider>
 	);
 }

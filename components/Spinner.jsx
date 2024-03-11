@@ -4,6 +4,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 const override = {
 	display: 'block',
 	margin: '100px auto',
+	// height:'100vh'
 };
 
 export default function Spinner({ loading }) {
